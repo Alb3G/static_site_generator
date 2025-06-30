@@ -44,3 +44,20 @@ class HtmlNode:
 	
 	def __repr__(self) -> str:
 		return f"HtmlNode({self.get_tag()}, {self.get_value()}, {self.get_children()}, {self.get_props()})"
+
+class LeafNode(HtmlNode):
+	def __init__(self, tag: str, value: str, props: dict[str, str] = {}) -> None:
+		super().__init__(tag=tag, value=value, props=props)
+
+	def to_html(self):
+		if self.get_value() is None:
+			raise ValueError("All leaf nodes must have a value!.")
+		
+		if self.get_tag() is None:
+			return self.get_value()
+		
+		props_string = self.props_to_html()
+
+		html_result = f'<{self.get_tag()}{props_string if props_string != None else ''}>{self.get_value()}</{self.get_tag()}>'
+	
+		return html_result
