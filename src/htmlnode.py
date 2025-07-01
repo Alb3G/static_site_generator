@@ -1,3 +1,6 @@
+from typing import override
+
+
 class HtmlNode:
 	def __init__(self, tag=None, value=None, children: list["HtmlNode"]=[], props: dict[str,str]={}) -> None:
 		self.__tag = tag
@@ -42,11 +45,12 @@ class HtmlNode:
 		
 		return result
 	
+	@override
 	def __repr__(self) -> str:
 		return f"HtmlNode({self.get_tag()}, {self.get_value()}, {self.get_children()}, {self.get_props()})"
 
 class LeafNode(HtmlNode):
-	def __init__(self, tag: str, value: str, props: dict[str, str] = {}) -> None:
+	def __init__(self, tag: str | None, value: str, props: dict[str, str] = {}) -> None:
 		super().__init__(tag=tag, value=value, props=props)
 
 	def to_html(self):
@@ -61,3 +65,27 @@ class LeafNode(HtmlNode):
 		html_result = f'<{self.get_tag()}{props_string if props_string != None else ''}>{self.get_value()}</{self.get_tag()}>'
 	
 		return html_result
+
+class ParentNode(HtmlNode):
+	def __init__(self, tag, children: list["HtmlNode"], props: dict[str, str] = {}) -> None:
+		super().__init__(tag=tag, children=children, props=props)
+	
+	def to_html(self):
+		if self.get_tag() == None:
+			raise ValueError("Node must have a tag!.")
+		
+		if len(self.get_children()) == 0 or self.get_children() is None:
+			raise ValueError("You must use children nodes in this class!.")
+		
+		html_string = f'<{self.get_tag()}>'
+
+		for child in self.get_children():
+			html_string += child.to_html()
+
+		html_string += f'</{self.get_tag()}>'
+
+		return html_string
+	
+	@override
+	def __repr__(self):
+		return f"ParentNode({self.get_tag()}, children: {self.get_children()}, {self.get_props()})"
