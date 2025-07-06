@@ -1,7 +1,8 @@
 from textnode import TextNode, TextType
-from utils.extract_markdown_img_links.extract_markdown_img_links import extract_markdown_images
+from utils.extract_markdown_img_links.extract_markdown_img_links import extract_markdown_links
 
-def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
+
+def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
 	new_nodes = []
 
 	for node in old_nodes:
@@ -11,22 +12,22 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
 	
 		text = node.get_text()
 
-		images = extract_markdown_images(text)
+		links = extract_markdown_links(text)
 
-		if len(images) == 0:
+		if len(links) == 0:
 			new_nodes.append(node)
 			continue
 		
-		for image in images:
-			sections = text.split(f"![{image[0]}]({image[1]})", 1)
+		for link in links:
+			sections = text.split(f"[{link[0]}]({link[1]})", 1)
 			
 			if len(sections) != 2:
-				raise ValueError("invalid markdown, image section not closed!")
+				raise ValueError("invalid markdown, link section not closed!")
 
 			if sections[0] != "":
 				new_nodes.append(TextNode(sections[0], TextType.PLAIN))
 
-			new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
+			new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
 
 			text = sections[1]
 

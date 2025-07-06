@@ -1,5 +1,3 @@
-# from htmlnode import HtmlNode
-# from textnode import TextNode, TextType
 
 def main():
 	pass
