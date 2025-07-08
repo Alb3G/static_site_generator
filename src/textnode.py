@@ -10,6 +10,9 @@ class TextType(Enum):
 	LINK = "link"
 	IMAGE = "image"
 
+def text_to_text_type(text: str):
+	pass
+
 class TextNode:
 	def __init__(self, text, text_type: TextType, url=None):
 		self.__text = text

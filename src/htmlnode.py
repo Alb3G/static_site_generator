@@ -1,8 +1,8 @@
-from typing import override
+from typing import Sequence, override
 
 
 class HtmlNode:
-	def __init__(self, tag=None, value=None, children: list["HtmlNode"]=[], props: dict[str,str]={}) -> None:
+	def __init__(self, tag=None, value=None, children: Sequence["HtmlNode"]=[], props: dict[str,str]={}) -> None:
 		self.__tag = tag
 		self.__value = value
 		self.__children = children
@@ -15,7 +15,7 @@ class HtmlNode:
 	def get_value(self) -> str | None:
 		return self.__value
 		
-	def get_children(self) -> list["HtmlNode"]:
+	def get_children(self) -> Sequence["HtmlNode"]:
 		return self.__children
 		
 	def get_props(self) -> dict[str, str]:
@@ -67,7 +67,7 @@ class LeafNode(HtmlNode):
 		return html_result
 
 class ParentNode(HtmlNode):
-	def __init__(self, tag, children: list["HtmlNode"], props: dict[str, str] = {}) -> None:
+	def __init__(self, tag, children: Sequence["HtmlNode"], props: dict[str, str] = {}) -> None:
 		super().__init__(tag=tag, children=children, props=props)
 	
 	def to_html(self):
