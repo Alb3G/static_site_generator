@@ -23,7 +23,7 @@ template_path = "./template.html"
 default_basepath = "/"
 
 def main():
-	base_path = default_basepath
+	basepath = default_basepath
 	if len(sys.argv) > 1:
 		basepath = sys.argv[1]
 
@@ -35,7 +35,7 @@ def main():
 	copy_files_recursive(dir_path_static, dir_path_docs)
 
 	print("Generating content...")
-	generate_pages_recursive(dir_path_content, template_path, dir_path_docs, base_path)
+	generate_pages_recursive(dir_path_content, template_path, dir_path_docs, basepath)
 	
 
 if __name__ == "__main__":
