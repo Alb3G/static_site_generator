@@ -1,7 +1,6 @@
 import os
 import shutil
 import sys
-from gen_page import gen_page
 from generate_pages_recursive import generate_pages_recursive
 
 def copy_files_recursive(source_dir_path, dest_dir_path):
@@ -36,7 +35,7 @@ def main():
 	copy_files_recursive(dir_path_static, dir_path_docs)
 
 	print("Generating content...")
-	generate_pages_recursive(base_path, template_path, dir_path_docs, base_path)
+	generate_pages_recursive(dir_path_content, template_path, dir_path_docs, base_path)
 	
 
 if __name__ == "__main__":
