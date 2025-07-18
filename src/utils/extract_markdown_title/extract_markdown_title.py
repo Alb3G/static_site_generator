@@ -1,11 +1,8 @@
 import re
 
-def extract_title(markdown: str) -> str:
-	h1: list[str] = re.findall(r"^\s*(#\s+.*)", markdown, re.MULTILINE)
-
-	if len(h1) == 0:
-		raise Exception("No h1 found in the markdown!")
-	
-	result = h1[0].strip()
-
-	return result
+def extract_title(md):
+    lines = md.split("\n")
+    for line in lines:
+        if line.startswith("# "):
+            return line[2:]
+    raise ValueError("no title found")
